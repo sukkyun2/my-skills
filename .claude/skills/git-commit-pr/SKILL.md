@@ -69,12 +69,24 @@ actual answer (not just your inference), write the filled template to a
 temp file and run:
 
 ```
-scripts/create-pr.sh "<title>" <filled-body-file> [base-branch]
+scripts/create-pr.sh "<title>" <filled-body-file> [base-branch] [label]
 ```
 
-`base-branch` defaults to `main`. The script pushes the current branch with
-`-u origin <branch>` and calls `gh pr create`. It refuses to run from the
-base branch itself.
+`base-branch` defaults to the repo's GitHub default branch (via
+`gh repo view --json defaultBranchRef`) when omitted. The script pushes the
+current branch with `-u origin <branch>`, then calls `gh pr create` with
+`--assignee @me` (assigns the PR to the authenticated user) and, if `label`
+is given, `--label <label>`. It refuses to run from the base branch itself.
+
+Before calling it, decide the `label` yourself from the diff/commits — pick
+exactly one:
+
+- `behavior` — changes what the code does (feature, fix, logic change)
+- `structure` — changes how the code is organized without changing behavior
+  (refactor, rename, file moves, formatting)
+- `bug` — fixes a defect
+
+If it's ambiguous, ask the user which one fits rather than guessing.
 
 ## Full flow example
 

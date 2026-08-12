@@ -52,9 +52,7 @@ as the final answer. Ask one section at a time, in this order:
    (shows only the key). No ticket → drop the Jira line.
 2. **What (변경 요약)** — you can propose a summary from the diff, but confirm
    it with the user rather than asserting it.
-3. **How (접근/설계)** — decisions, trade-offs, alternatives rejected. Also
-   ask: what's a good entry point for a reviewer? → `시작점:` line (e.g.
-   `UploadDeliveryTracking, GetDeliveryTrackingUploadHistories 부터 시작`).
+3. **How (접근/설계)** — decisions, trade-offs, alternatives rejected.
 4. **Test (검증)** — how they verified it (tests run, manual checks,
    screenshots/logs).
 5. **TODO (머지/배포 전 필요 작업)** — deploy-time manual steps only (parameter
@@ -62,7 +60,9 @@ as the final answer. Ask one section at a time, in this order:
    drop the section if none.
 6. **Review Focus (리뷰어가 봐주셨으면 하는 부분)** — ask what they're unsure
    about or debated internally. Don't skip this by guessing — it's usually
-   something only the author knows.
+   something only the author knows. Also ask: what's a good entry point for
+   a reviewer? → `시작점:` line at the end of this section (e.g.
+   `UploadDeliveryTracking, GetDeliveryTrackingUploadHistories 부터 시작`).
 
 Plain `-` bullets everywhere except TODO. Once every section has the user's
 actual answer (not just your inference), write the filled template to a

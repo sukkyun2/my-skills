@@ -38,6 +38,6 @@ Jira: [JIRA-0000](https://ktown4u.atlassian.net/browse/JIRA-0000)
 
 - 
 
-시작점: <!-- 리뷰 시작하기 좋은 진입점. ex) UploadDeliveryTracking, GetDeliveryTrackingUploadHistories 부터 시작 -->
+> 시작점: <!-- 리뷰 시작하기 좋은 진입점. ex) UploadDeliveryTracking, GetDeliveryTrackingUploadHistories 부터 시작 -->
  
 

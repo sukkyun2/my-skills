@@ -41,6 +41,8 @@ Read [reference/commit-convention.md](reference/commit-convention.md) first.
 
 ## 3. Pull Request
 
+PR 본문은 한글로 작성한다 (섹션 헤더의 영문 라벨은 유지, 내용만 한글).
+
 Don't silently fill [templates/pr-template.md](templates/pr-template.md) from
 the diff alone — walk through it section by section with the user via
 AskUserQuestion (or plain questions) and fill in their answers, using the
@@ -61,8 +63,8 @@ as the final answer. Ask one section at a time, in this order:
 6. **Review Focus (리뷰어가 봐주셨으면 하는 부분)** — ask what they're unsure
    about or debated internally. Don't skip this by guessing — it's usually
    something only the author knows. Also ask: what's a good entry point for
-   a reviewer? → `시작점:` line at the end of this section (e.g.
-   `UploadDeliveryTracking, GetDeliveryTrackingUploadHistories 부터 시작`).
+   a reviewer? → `> 시작점:` blockquote line at the end of this section (e.g.
+   `> 시작점: UploadDeliveryTracking, GetDeliveryTrackingUploadHistories 부터 시작`).
 
 Plain `-` bullets everywhere except TODO. Once every section has the user's
 actual answer (not just your inference), write the filled template to a

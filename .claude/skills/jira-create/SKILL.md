@@ -10,7 +10,7 @@ description: Jira 티켓을 자동으로 생성할 때 사용. 버그 발견, �
 
 ## 1. 프로젝트 & 이슈 타입 확인
 
-1. 사용자에게 프로젝트(키 또는 이름)와 이슈 타입(Task/Bug/Story 등)을 묻는다.
+1. 사용자에게 프로젝트(키 또는 이름)와 이슈 타입(Task/Bug 등)을 묻는다.
 2. 프로젝트가 불확실하면 `getVisibleJiraProjects`로 후보 목록을 보여주고
    선택받는다.
 3. 선택된 프로젝트에서 해당 이슈 타입이 유효한지
@@ -22,7 +22,7 @@ description: Jira 티켓을 자동으로 생성할 때 사용. 버그 발견, �
 1. 지금까지의 대화 내용을 바탕으로 제목과 설명 초안을 작성한다.
 2. 이슈 타입에 맞는 템플릿을 사용한다:
    - Bug → [templates/bug-template.md](templates/bug-template.md)
-   - Task/Story → [templates/task-template.md](templates/task-template.md)
+   - Task → [templates/task-template.md](templates/task-template.md)
 3. 초안(제목 + 채운 템플릿)을 사용자에게 보여준다. 대화 내용만으로
    단정하지 말고, 빈 항목이나 불확실한 부분은 사용자에게 직접 물어서
    채운다.

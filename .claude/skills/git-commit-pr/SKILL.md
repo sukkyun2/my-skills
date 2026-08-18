@@ -90,6 +90,20 @@ exactly one:
 
 If it's ambiguous, ask the user which one fits rather than guessing.
 
+## Updating an existing PR
+
+When the user gives an existing PR (number or URL) to update instead of
+creating a new one, walk the template the same way (section by section, via
+AskUserQuestion), write the filled body to a temp file, then run:
+
+```
+scripts/edit-pr.sh <pr-number-or-url> <filled-body-file> [title]
+```
+
+This calls `gh pr edit` with the new body (and title, if given). It only
+assigns the PR to the authenticated user when the PR currently has **no**
+assignee — an already-assigned PR is left alone.
+
 ## Full flow example
 
 ```bash
@@ -106,5 +120,7 @@ scripts/create-pr.sh "feat(login): add rate limiting to login endpoint" /tmp/pr-
   `-m` and `-F` cannot be combined in one `git commit` call.
 - `create-pr.sh` requires `gh auth status` to already be logged in and an
   `origin` remote to exist; neither is checked/set up by this skill.
+- `edit-pr.sh` doesn't push or touch branches — it only edits the PR via
+  `gh pr edit`, so it works from any branch (or a detached worktree).
 - Branch `type` for branches is a narrower set than commit `type` — no
   `style`/`perf`/`test`/`build`/`ci`/`revert` branch prefixes.

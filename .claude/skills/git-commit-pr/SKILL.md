@@ -59,16 +59,20 @@ as the final answer. Ask one section at a time, in this order:
    screenshots/logs).
 5. **TODO (머지/배포 전 필요 작업)** — deploy-time manual steps only (parameter
    store values, DB migrations), as `- [ ]` checkboxes. Ask if there are any;
-   drop the section if none.
+   if none, **remove the whole section** (heading included) — never write it
+   with "없음" as filler.
 6. **Review Focus (리뷰어가 봐주셨으면 하는 부분)** — ask what they're unsure
    about or debated internally. Don't skip this by guessing — it's usually
-   something only the author knows. Also ask: what's a good entry point for
-   a reviewer? → `> 시작점:` blockquote line at the end of this section (e.g.
-   `> 시작점: UploadDeliveryTracking, GetDeliveryTrackingUploadHistories 부터 시작`).
+   something only the author knows. If the user genuinely has nothing, **remove
+   the whole section** the same way TODO does — but still ask about the entry
+   point separately and keep the `> 시작점:` line (as its own trailing line, not
+   nested under the removed heading) whenever they name one: `> 시작점:
+   UploadDeliveryTracking, GetDeliveryTrackingUploadHistories 부터 시작`.
 
-Plain `-` bullets everywhere except TODO. Once every section has the user's
-actual answer (not just your inference), write the filled template to a
-temp file and run:
+Plain `-` bullets everywhere except TODO. A section with real content is never
+filled with "없음"/"None" — either it has the user's actual answer or it's
+cut entirely. Once every section has the user's actual answer (not just your
+inference), write the filled template to a temp file and run:
 
 ```
 scripts/create-pr.sh "<title>" <filled-body-file> [base-branch] [label]

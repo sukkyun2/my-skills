@@ -1,0 +1,8 @@
+{
+  "name": "dev-workflow",
+  "version": "1.0.0",
+  "description": "git branch/commit/PR workflow and Jira ticket creation skills",
+  "author": {
+    "name": "sukkyun2"
+  }
+}

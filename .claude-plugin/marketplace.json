@@ -1,0 +1,14 @@
+{
+  "name": "my-skills",
+  "owner": {
+    "name": "sukkyun2"
+  },
+  "description": "sukkyun2's Claude Code skills",
+  "plugins": [
+    {
+      "name": "dev-workflow",
+      "source": "./plugins/dev-workflow",
+      "description": "git branch/commit/PR workflow and Jira ticket creation skills"
+    }
+  ]
+}

@@ -31,6 +31,7 @@ Codex는 GitHub Issues 기반으로 다음 워크플로를 제공한다.
 
 - `git-commit-pr` — branch creation, Conventional Commits, PR create/update via `gh`
 - `github-issue-create` — GitHub Issue 초안 작성, 사용자 확인, 본인 할당 및 기본 Project 추가
+- `git-sync-branches` — Desktop workspaces의 `origin/dev`, `origin/main`을 60분마다 안전하게 동기화
 
 `git-commit-pr`는 브랜치 이름의 `type/<이슈번호>-<slug>` 형식 또는 사용자가
 제공한 GitHub Issue 번호를 PR 본문의 `Closes #번호`로 연결한다.

@@ -2,7 +2,7 @@
 
 -
 
-Jira: [JIRA-0000](https://ktown4u.atlassian.net/browse/JIRA-0000)
+Closes #000
 
 ## What (변경 요약)
 

@@ -9,7 +9,7 @@ Use the helper scripts in `scripts/` for the mechanical git and `gh` operations.
 
 ## Branch
 
-Read [branch naming](references/branch-naming.md). Ask for an issue or ticket number. If there is none, derive a short kebab-case slug from the diff or task; do not ask the user to invent one. Confirm a non-obvious derived branch name, then run:
+Read [branch naming](references/branch-naming.md). Ask for a GitHub Issue number. If there is none, derive a short kebab-case slug from the diff or task; do not ask the user to invent one. Confirm a non-obvious derived branch name, then run:
 
 ```bash
 scripts/new-branch.sh <type> <slug> [issue-number]
@@ -36,7 +36,7 @@ Ask the user which mode to use whenever starting PR creation or updating:
 
 For either mode, read all commits from the base branch to `HEAD` (subjects and bodies) plus the diff. Commit bodies are the primary input for Why, What, and How.
 
-- **Why:** state the problem or need. Include a Jira link only when the key is known: `[KEY](https://ktown4u.atlassian.net/browse/KEY)`.
+- **Why:** state the problem or need. When a GitHub Issue number is known, add `Closes #<number>` in the PR description. GitHub uses this as the Issue's linked/related PR relationship and closes the issue when the PR merges into the default branch. Use an explicitly supplied number first; otherwise infer it from a `type/<number>-<slug>` branch name. In Normal mode, ask only when the context implies an issue but its number is unclear. In Bypass mode, omit the line when uncertain.
 - **What:** summarize the changes.
 - **How:** capture key decisions, trade-offs, and rejected alternatives when supported.
 - **Test:** report actual tests or manual verification only.

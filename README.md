@@ -16,6 +16,24 @@ GitHub Issue를 작업의 시작점으로 삼아 브랜치, 커밋, PR까지 이
 
 ### Codex
 
+#### Plugin Marketplace 설치
+
+다른 Codex 사용자에게 배포하거나 업데이트를 추적하려면 Marketplace로 설치합니다.
+
+```bash
+codex plugin marketplace add sukkyun2/my-skills --ref master \
+  --sparse .agents/plugins --sparse .codex
+```
+
+그런 다음 Codex의 `/plugins`에서 **sukkyun2 Skills** Marketplace를 열고
+**Dev Workflow**를 설치합니다. 설치 여부는 다음 명령으로 확인합니다.
+
+```bash
+codex plugin marketplace list
+```
+
+#### 저장소 개발용 동기화
+
 저장소를 내려받은 뒤 다음 명령을 실행합니다.
 
 ```bash
@@ -49,6 +67,7 @@ flowchart LR
 | `github-issue-create` | “이 작업 Issue 만들어줘” | 확인된 Issue, 담당자 지정, Project 및 일정 반영 |
 | `git-commit-pr` | “커밋해줘”, “PR 열어줘” | 이슈 기반 브랜치, Conventional Commit, 연결된 PR |
 | `git-sync-branches` | “dev/main 동기화 상태 보여줘” | Desktop workspaces의 안전한 로컬 브랜치 최신화 |
+| `datadog-my-services` | “내 서비스 Datadog 에러 확인해줘” | mario·gms-java-api의 기본 서비스·환경·시간 범위 조회 |
 
 ## `github-issue-create`
 
@@ -161,6 +180,23 @@ $git-sync-branches dry-run으로 확인해줘
   사용 중인 브랜치는 건너뜁니다.
 - 자동 `merge`, `rebase`, `reset`, `stash`, 브랜치 전환은 하지 않습니다.
 
+## `datadog-my-services`
+
+Mario와 GMS Java API의 Datadog 조회에 서비스와 환경 기본값을 적용합니다.
+
+| 저장소 | 기본 Datadog service | 기본 환경 |
+| --- | --- | --- |
+| `mario` | `mario` | `prod` |
+| `gms-java-api` | `gms-java-api` | `prod` |
+
+시간을 지정하지 않으면 최근 1시간을 KST 기준으로 조회합니다. 다른 저장소에서 서비스가
+생략된 요청은 두 서비스를 함께 확인하며, 서비스·환경·기간을 명시하면 해당 값을 우선합니다.
+
+```text
+$datadog-my-services mario 어제 오후 3시부터 4시까지 에러 로그 확인해줘
+$datadog-my-services 내 서비스들 상태 확인해줘
+```
+
 ## 요구 사항과 호환성
 
 - Issue/PR 생성에는 로그인된 `gh`와 저장소 쓰기 권한이 필요합니다.
@@ -172,7 +208,8 @@ $git-sync-branches dry-run으로 확인해줘
 
 ```text
 .claude/skills/                 Claude Code 스킬 원본
-.codex/skills/                  Codex용 스킬
+.codex/                         Codex plugin root (선별된 skills/와 .codex-plugin/plugin.json 포함)
+.agents/plugins/marketplace.json Codex 개인·팀용 Marketplace 정의
 .claude-plugin/marketplace.json Claude Code Marketplace 정의
 plugins/dev-workflow/           플러그인 매니페스트 (skills/는 .claude/skills 심볼릭 링크)
 scripts/sync-skills.sh          ~/.claude/skills/로 동기화

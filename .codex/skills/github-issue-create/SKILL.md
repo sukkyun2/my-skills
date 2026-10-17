@@ -9,7 +9,7 @@ Use `gh` for the current repository. Always obtain explicit confirmation of the 
 
 ## Draft and confirm
 
-Create a title and description draft from the conversation. Use [the bug template](templates/bug-template.md) for bugs and [the task template](templates/task-template.md) for tasks. Ask about uncertain or empty fields, show the completed draft, and wait for confirmation or requested revisions before continuing.
+Create a title and description draft from the conversation. Use [the bug template](templates/bug-template.md) for bugs and [the task template](templates/task-template.md) for tasks. When the conversation contains a Teams URL, preserve it in a `## Teams 링크` section; otherwise remove that optional section without asking for a link. Ask about uncertain or empty required fields, show the completed draft, and wait for confirmation or requested revisions before continuing.
 
 Choose the default GitHub Project from the work context:
 

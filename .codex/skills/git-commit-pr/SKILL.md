@@ -5,7 +5,9 @@ description: Create a branch, write a Conventional Commit, or open or update a G
 
 # Git Commit & PR Workflow
 
-Use the helper scripts in `scripts/` for the mechanical git and `gh` operations. Make judgment calls from the actual diff and commit history. Obtain the user's confirmation immediately before each external mutation (branch creation, commit, push, PR creation, or PR edit).
+Use the helper scripts in `scripts/` for the mechanical git and `gh` operations. Make judgment calls from the actual diff and commit history. Obtain the user's confirmation immediately before branch creation, PR creation, or PR edit.
+
+On a non-protected feature branch, commit and push the task-relevant changes without a separate confirmation when the user asks for commit or push. Never push `dev`, `main`, or `master` without the user's explicit approval immediately before that push. For a protected branch PR command, set `ALLOW_PROTECTED_BRANCH_PUSH=1` only after that approval.
 
 ## Branch
 
@@ -19,7 +21,7 @@ Allowed branch types: `feat`, `fix`, `docs`, `refactor`, `chore`, `hotfix`.
 
 ## Commit
 
-Read [commit convention](references/commit-convention.md). Stage only the relevant files, derive the header and optional what-and-why body from the diff, show the proposed commit message, and after confirmation run:
+Read [commit convention](references/commit-convention.md). Stage only the relevant files, derive the header and optional what-and-why body from the diff, then run:
 
 ```bash
 scripts/commit.sh "<header>" [body-file]
@@ -36,7 +38,7 @@ Ask the user which mode to use whenever starting PR creation or updating:
 
 For either mode, read all commits from the base branch to `HEAD` (subjects and bodies) plus the diff. Commit bodies are the primary input for Why, What, and How.
 
-- **Why:** state the problem or need. When a GitHub Issue number is known, add `Closes #<number>` in the PR description. GitHub uses this as the Issue's linked/related PR relationship and closes the issue when the PR merges into the default branch. Use an explicitly supplied number first; otherwise infer it from a `type/<number>-<slug>` branch name. In Normal mode, ask only when the context implies an issue but its number is unclear. In Bypass mode, omit the line when uncertain.
+- **Why:** state the problem or need. When a Teams URL is present in the request or commit history, include it under `### Teams 링크`; otherwise remove that optional subsection without asking for a link. When a GitHub Issue number is known, add `Closes #<number>` as the final line of the PR description. This creates the two-way GitHub link: the Issue lists the PR under `Linked pull requests`, and the PR displays its linked Issue. It also closes the Issue when the PR merges into the default branch. Use an explicitly supplied number first; otherwise infer it from a `type/<number>-<slug>` branch name. In Normal mode, ask only when the context implies an issue but its number is unclear. In Bypass mode, omit the line when uncertain.
 - **What:** summarize the changes.
 - **How:** capture key decisions, trade-offs, and rejected alternatives when supported.
 - **Test:** report actual tests or manual verification only.

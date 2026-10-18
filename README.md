@@ -1,43 +1,50 @@
 # my-skills
 
+GitHub Issue → 브랜치 → 커밋 → PR로 이어지는 개발 흐름과 운영 조회를 자동화하는
+Codex용 개인 스킬 모음입니다.
+
+- [빠른 시작](#빠른-시작)
+- [스킬 한눈에 보기](#스킬-한눈에-보기)
+- [`github-issue-create`](#github-issue-create) · [`git-commit-pr`](#git-commit-pr) · [`git-sync-branches`](#git-sync-branches) · [`datadog-my-services`](#datadog-my-services)
+- [요구 사항](#요구-사항)
+- [저장소 구성](#저장소-구성)
+
 ## 빠른 시작
 
-### Codex
-
-#### Plugin Marketplace 설치
+### Codex — Plugin Marketplace로 설치 (권장)
 
 ```bash
 codex plugin marketplace add sukkyun2/my-skills --ref master \
   --sparse .agents/plugins --sparse .codex
 ```
 
-그런 다음 Codex의 `/plugins`에서 **sukkyun2 Skills** Marketplace를 열고
-**Dev Workflow**를 설치합니다. 설치 여부는 다음 명령으로 확인합니다.
+Codex에서 `/plugins` → **sukkyun2 Skills** Marketplace → **Dev Workflow**를 설치합니다.
+등록 여부는 다음 명령으로 확인합니다.
 
 ```bash
 codex plugin marketplace list
 ```
 
-#### 저장소 개발용 동기화
-
-저장소를 내려받은 뒤 다음 명령을 실행합니다.
+### Codex — 저장소에서 직접 동기화 (스킬 개발용)
 
 ```bash
 scripts/sync-codex-skills.sh
 ```
 
-`git-commit-pr`, `github-issue-create`, `git-sync-branches`가 사용자 범위에
-설치됩니다. 기본 경로는 `~/.codex/skills/`이며, `CODEX_HOME`이 설정되어 있으면
-`${CODEX_HOME}/skills/`를 사용합니다. 스킬을 수정한 뒤에도 같은 명령으로 다시
-동기화합니다.
+스킬이 사용자 범위에 설치됩니다. 스킬을 수정한 뒤에도 같은 명령으로 다시 동기화합니다.
 
-특정 프로젝트에서만 쓰려면 `.codex/skills/`를 대상 프로젝트의 같은 경로에
-복사하거나 심볼릭 링크로 연결하면 됩니다.
+| 조건 | 설치 경로 |
+| --- | --- |
+| 기본 | `~/.codex/skills/` |
+| `CODEX_HOME` 설정 시 | `${CODEX_HOME}/skills/` |
 
-## Codex 워크플로
+특정 프로젝트에서만 쓰려면 `.codex/skills/`를 대상 프로젝트의 같은 경로에 복사하거나
+심볼릭 링크로 연결합니다.
 
-Codex는 자연어 요청만으로 관련 스킬을 선택합니다. 확실히 지정하고 싶다면
-`$스킬명`으로 시작하세요.
+## 스킬 한눈에 보기
+
+Codex는 자연어 요청만으로 알맞은 스킬을 고릅니다. 특정 스킬을 확실히 쓰려면
+요청을 `$스킬명`으로 시작하세요.
 
 ```mermaid
 flowchart LR
@@ -48,30 +55,33 @@ flowchart LR
     E -->|Closes #번호| A
 ```
 
-| 스킬 | 이런 요청에 사용 | 결과 |
+| 스킬 | 이런 요청에 | 결과 |
 | --- | --- | --- |
-| `github-issue-create` | “이 작업 Issue 만들어줘” | 확인된 Issue, 담당자 지정, Project 및 일정 반영 |
-| `git-commit-pr` | “커밋해줘”, “PR 열어줘” | 이슈 기반 브랜치, Conventional Commit, 연결된 PR |
-| `git-sync-branches` | “dev/main 동기화 상태 보여줘” | Desktop workspaces의 안전한 로컬 브랜치 최신화 |
-| `datadog-my-services` | “내 서비스 Datadog 에러 확인해줘” | mario·gms-java-api의 기본 서비스·환경·시간 범위 조회 |
+| `github-issue-create` | “이 작업 Issue 만들어줘” | 담당자·Project·일정이 반영된 Issue |
+| `git-commit-pr` | “커밋해줘”, “PR 열어줘” | Issue 기반 브랜치, Conventional Commit, 연결된 PR |
+| `git-sync-branches` | “dev/main 동기화 상태 보여줘” | 로컬 `dev`·`main` 브랜치의 안전한 최신화 |
+| `datadog-my-services` | “내 서비스 Datadog 에러 확인해줘” | 서비스·환경·기간 기본값이 적용된 Datadog 조회 |
+
+---
 
 ## `github-issue-create`
 
-작업 또는 버그 Issue를 초안으로 만들고, 사용자가 최종 확인하면 현재 저장소에
-생성합니다.
+작업·버그 Issue를 초안으로 보여주고, 사용자가 확인하면 현재 저장소에 생성합니다.
 
-### 생성 결과
+**동작**
 
-- Issue 제목과 본문을 대화 내용에서 작성
+- 대화 내용을 바탕으로 제목과 본문 작성
 - 현재 로그인 계정(`@me`)을 담당자로 지정
 - 업무 문맥에 맞는 GitHub Project에 추가
-- 제공된 시작일·목표일을 Project 필드에 기록
+- 시작일·목표일이 주어지면 Project 필드에 기록
 
-| 업무 문맥 | 기본 Project | 일정 필드 |
+| 업무 문맥 | Project | 일정 필드 |
 | --- | --- | --- |
-| GMS | `wms-plan` · Project #33 | `Start date`, `Target date` |
-| FOMS | `oms-plan` · Project #37 | `Start date`, `Target date` |
-| 문맥 불명확 | 생성 전 Project 확인 | 입력된 날짜만 기록 |
+| GMS | `wms-plan` (#33) | `Start date`, `Target date` |
+| FOMS | `oms-plan` (#37) | `Start date`, `Target date` |
+| 불명확 | 생성 전에 사용자에게 확인 | 입력된 날짜만 기록 |
+
+**예시**
 
 ```text
 $github-issue-create 로그인 실패 오류를 GitHub Issue로 등록해줘
@@ -79,99 +89,119 @@ $github-issue-create GMS 배송 조회 작업을 시작일 2026-10-13, 목표일
 $github-issue-create 이 Teams 대화 링크를 포함해서 Issue로 등록해줘: <Teams URL>
 ```
 
+---
+
 ## `git-commit-pr`
 
-변경사항을 GitHub Issue에 연결된 브랜치와 PR로 정리합니다. 커밋과 PR 본문은 실제
-diff와 커밋 이력에 근거해 작성합니다.
+변경사항을 GitHub Issue에 연결된 브랜치·커밋·PR로 정리합니다. 커밋 메시지와 PR 본문은
+실제 diff와 커밋 이력에 근거해 작성합니다.
 
-### 만들어지는 결과
+**결과 예시**
 
-| 단계 | 예시 결과 |
+| 단계 | 예시 |
 | --- | --- |
-| 브랜치 | `feat/123-login-error` |
+| 브랜치 | `fix/123-login-error` |
 | 커밋 | `fix(auth): 로그인 실패 원인 표시` |
 | PR 레이블 | `behavior`, `structure`, `bug` 중 하나 |
-| Issue 연결 | PR 마지막 줄의 `Closes #123` |
+| Issue 연결 | PR 본문 마지막 줄 `Closes #123` |
 
-Issue 번호가 있으면 브랜치명에 포함하고 PR 본문 마지막 줄에 `Closes #번호`를
-넣습니다. GitHub에서는 Issue의 **Linked pull requests**와 PR의 연결된 Issue가
-양방향으로 표시되며, 기본 브랜치 병합 시 Issue가 자동으로 종료됩니다.
+Issue 번호가 있으면 브랜치명에 넣고, PR 본문 마지막 줄에 `Closes #번호`를 추가합니다.
+GitHub에서 Issue와 PR이 서로 연결되어 표시되며, 기본 브랜치에 병합되면 Issue가 자동으로
+닫힙니다.
+
+**PR 본문 템플릿**
 
 ```md
 ## Why (배경/문제)
-### Teams 링크                       # 제공된 경우만
+### Teams 링크                                   # 제공된 경우만
 ## What (변경 요약)
 ## How (접근/설계)
 ## Test (검증)
-## TODO (배포 전 필요 작업)       # 필요한 경우만
-## Review Focus (리뷰어가 봐주셨으면 하는 부분) # 필요한 경우만
+## TODO (배포 전 필요 작업)                       # 필요한 경우만
+## Review Focus (리뷰어가 봐주셨으면 하는 부분)   # 필요한 경우만
 
 Closes #123
 ```
 
+**PR 모드**
+
+| 모드 | 동작 |
+| --- | --- |
+| Normal (기본) | PR 초안 전체를 보여주고, 불확실한 부분만 확인한 뒤 생성·수정 |
+| Bypass | 추가 질문 없이 diff·커밋 이력으로 확인되는 정보만 사용 |
+
+**예시**
+
 ```text
-$git-commit-pr GitHub Issue #123 기준으로 feat 브랜치 만들어줘
+$git-commit-pr GitHub Issue #123 기준으로 브랜치 만들어줘
 $git-commit-pr 현재 변경사항 커밋하고 푸시해줘
 $git-commit-pr PR 만들어줘
 $git-commit-pr Bypass 모드로 PR 만들어줘
 ```
 
-| PR 모드 | 동작 |
-| --- | --- |
-| Normal | PR 전체 초안을 보여주고, 불확실한 내용만 확인한 뒤 생성 또는 수정 |
-| Bypass | 추가 내용 질문 없이 diff·커밋 이력에 확인되는 정보만 사용 |
+> [!IMPORTANT]
+> 기능 브랜치에서는 요청에 포함된 커밋·push를 다시 묻지 않고 진행합니다.
+> `dev`, `main`, `master`로의 push는 **push 직전에 반드시 명시적 승인**을 받습니다.
 
-기능 브랜치에서는 요청에 포함된 커밋·push를 별도 재확인 없이 진행합니다. 
-다만 `dev`, `main`, `master`에 대한 push는 반드시 push 직전의 명시 승인이 필요합니다.
+---
 
 ## `git-sync-branches`
 
-`~/Desktop/workspaces` 아래의 모든 Git 저장소에서 `origin/dev`와 `origin/main`을
-로컬 브랜치에 안전하게 반영합니다. macOS LaunchAgent가 60분마다 실행하고 결과는
-`~/.codex/logs/git-sync-branches.log`에 기록합니다.
+`~/Desktop/workspaces` 아래 모든 Git 저장소에서 `origin/dev`, `origin/main`을 로컬
+브랜치에 안전하게 반영합니다. macOS LaunchAgent가 60분마다 실행하며, 결과는
+`~/.codex/logs/git-sync-branches.log`에 기록됩니다.
+
+| 상황 | 처리 |
+| --- | --- |
+| 로컬 추적 브랜치 없음 | 생성 |
+| 체크아웃되지 않은 브랜치 | fast-forward만 수행 |
+| 원격 브랜치 없음 / 로컬이 ahead·diverged / 다른 worktree에서 사용 중 | 건너뜀 |
+
+`merge`, `rebase`, `reset`, `stash`, 브랜치 전환은 자동으로 하지 않습니다.
+
+**예시**
 
 ```text
 $git-sync-branches 현재 동기화 상태 보여줘
 $git-sync-branches dry-run으로 확인해줘
 ```
 
-- 없는 로컬 추적 브랜치는 생성합니다.
-- 체크아웃되지 않은 로컬 브랜치는 fast-forward만 합니다.
-- 원격에 브랜치가 없거나, 로컬이 ahead/diverged 상태이거나, 다른 worktree에서 사용 중인 브랜치는 건너뜁니다.
-- 자동 `merge`, `rebase`, `reset`, `stash`, 브랜치 전환은 하지 않습니다.
+---
 
 ## `datadog-my-services`
 
-Mario와 GMS API의 Datadog 조회에 서비스와 환경 기본값을 적용합니다.
+Mario와 GMS API의 Datadog 조회에 서비스·환경 기본값을 적용합니다.
 
-| 저장소 | 기본 Datadog service | 기본 환경 |
+| 저장소 | Datadog service | 환경 |
 | --- | --- | --- |
 | `mario` | `mario` | `prod` |
 | `gms-java-api` | `gms-java-api` | `prod` |
 
-시간을 지정하지 않으면 최근 1시간을 KST 기준으로 조회합니다. 다른 저장소에서 서비스가
-생략된 요청은 두 서비스를 함께 확인하며, 서비스·환경·기간을 명시하면 해당 값을 우선합니다.
+**기본값 규칙**
+
+- 기간을 지정하지 않으면 **최근 1시간(KST)** 을 조회합니다.
+- 위 두 저장소 밖에서 서비스를 생략하면 두 서비스를 함께 확인합니다.
+- 서비스·환경·기간을 명시하면 그 값이 우선합니다.
+
+**예시**
 
 ```text
 $datadog-my-services mario 어제 오후 3시부터 4시까지 에러 로그 확인해줘
 $datadog-my-services 내 서비스들 상태 확인해줘
 ```
 
-## 요구 사항과 호환성
+---
 
-- Issue/PR 생성에는 로그인된 `gh`와 저장소 쓰기 권한이 필요합니다.
-- Project 추가·일정 기록에는 `project` 권한도 필요합니다.
-- 기존 `jira-create`는 하위 호환용으로 남아 있지만 Codex가 자동 선택하지 않습니다.
-  Claude Code 플러그인과 과거 설계 문서는 기존 Jira 구성을 유지합니다.
+## 요구 사항
+
+- Issue·PR 생성: 로그인된 `gh` CLI와 저장소 쓰기 권한
+- Project 추가·일정 기록: `gh`의 `project` 권한 추가 필요
+- 기존 `jira-create` 스킬은 하위 호환용으로 남아 있지만 Codex가 자동 선택하지 않습니다.
 
 ## 저장소 구성
 
 ```text
-.claude/skills/                 Claude Code 스킬 원본
-.codex/                         Codex plugin root (선별된 skills/와 .codex-plugin/plugin.json 포함)
-.agents/plugins/marketplace.json Codex 개인·팀용 Marketplace 정의
-.claude-plugin/marketplace.json Claude Code Marketplace 정의
-plugins/dev-workflow/           플러그인 매니페스트 (skills/는 .claude/skills 심볼릭 링크)
-scripts/sync-skills.sh          ~/.claude/skills/로 동기화
-scripts/sync-codex-skills.sh    ~/.codex/skills/로 동기화
+.codex/                            Codex plugin root (선별된 skills/, .codex-plugin/plugin.json)
+.agents/plugins/marketplace.json   Codex 개인·팀용 Marketplace 정의
+scripts/sync-codex-skills.sh       ~/.codex/skills/로 동기화
 ```

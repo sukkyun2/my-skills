@@ -1,12 +1,13 @@
 # my-skills
 
-GitHub Issue → 브랜치 → 커밋 → PR로 이어지는 개발 흐름과 운영 조회를 자동화하는
 Codex용 개인 스킬 모음입니다.
 
 - [빠른 시작](#빠른-시작)
 - [스킬 한눈에 보기](#스킬-한눈에-보기)
-- [`github-issue-create`](#github-issue-create) · [`git-commit-pr`](#git-commit-pr) · [`git-sync-branches`](#git-sync-branches) · [`datadog-my-services`](#datadog-my-services)
-- [요구 사항](#요구-사항)
+  - [`github-issue-create`](#github-issue-create)
+  - [`git-commit-pr`](#git-commit-pr)
+  - [`git-sync-branches`](#git-sync-branches)
+  - [`datadog-my-services`](#datadog-my-services)
 - [저장소 구성](#저장소-구성)
 
 ## 빠른 시작
@@ -42,9 +43,6 @@ scripts/sync-codex-skills.sh
 심볼릭 링크로 연결합니다.
 
 ## 스킬 한눈에 보기
-
-Codex는 자연어 요청만으로 알맞은 스킬을 고릅니다. 특정 스킬을 확실히 쓰려면
-요청을 `$스킬명`으로 시작하세요.
 
 ```mermaid
 flowchart LR
@@ -189,14 +187,6 @@ Mario와 GMS API의 Datadog 조회에 서비스·환경 기본값을 적용합�
 $datadog-my-services mario 어제 오후 3시부터 4시까지 에러 로그 확인해줘
 $datadog-my-services 내 서비스들 상태 확인해줘
 ```
-
----
-
-## 요구 사항
-
-- Issue·PR 생성: 로그인된 `gh` CLI와 저장소 쓰기 권한
-- Project 추가·일정 기록: `gh`의 `project` 권한 추가 필요
-- 기존 `jira-create` 스킬은 하위 호환용으로 남아 있지만 Codex가 자동 선택하지 않습니다.
 
 ## 저장소 구성
 

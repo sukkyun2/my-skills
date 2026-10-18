@@ -1,24 +1,10 @@
 # my-skills
 
-> sukkyun2의 Claude Code · Codex 업무 워크플로 스킬 모음
-
-GitHub Issue를 작업의 시작점으로 삼아 브랜치, 커밋, PR까지 이어지는 흐름과
-여러 저장소의 기본 브랜치 동기화를 제공합니다.
-
 ## 빠른 시작
-
-### Claude Code
-
-```text
-/plugin marketplace add sukkyun2/my-skills
-/plugin install dev-workflow@my-skills
-```
 
 ### Codex
 
 #### Plugin Marketplace 설치
-
-다른 Codex 사용자에게 배포하거나 업데이트를 추적하려면 Marketplace로 설치합니다.
 
 ```bash
 codex plugin marketplace add sukkyun2/my-skills --ref master \
@@ -80,35 +66,18 @@ flowchart LR
 - 현재 로그인 계정(`@me`)을 담당자로 지정
 - 업무 문맥에 맞는 GitHub Project에 추가
 - 제공된 시작일·목표일을 Project 필드에 기록
-- 제공된 Teams 대화 링크를 Issue 본문에 보존
-- 생성된 Issue 번호와 URL 보고
 
 | 업무 문맥 | 기본 Project | 일정 필드 |
 | --- | --- | --- |
-| GMS / WMS | `wms-plan` · Project #33 | `Start date`, `Target date` |
-| FOMS / OMS | `oms-plan` · Project #37 | `Start date`, `Target date` |
+| GMS | `wms-plan` · Project #33 | `Start date`, `Target date` |
+| FOMS | `oms-plan` · Project #37 | `Start date`, `Target date` |
 | 문맥 불명확 | 생성 전 Project 확인 | 입력된 날짜만 기록 |
-
-본문은 유형에 따라 다음 항목을 채웁니다.
-
-| 유형 | 본문 구성 |
-| --- | --- |
-| 작업 | `배경`, `완료조건`, 제공된 경우 `Teams 링크` |
-| 버그 | `재현절차`, `완료조건`, 제공된 경우 `Teams 링크` |
 
 ```text
 $github-issue-create 로그인 실패 오류를 GitHub Issue로 등록해줘
-
-$github-issue-create GMS 배송 조회 작업을 시작일 2026-10-13,
-목표일 2026-10-20으로 등록해줘
-
+$github-issue-create GMS 배송 조회 작업을 시작일 2026-10-13, 목표일 2026-10-20으로 등록해줘
 $github-issue-create 이 Teams 대화 링크를 포함해서 Issue로 등록해줘: <Teams URL>
 ```
-
-제목·본문이 완성되면 반드시 초안을 보여주고 생성 확인을 받습니다. Teams 링크는
-제공된 경우에만 넣으며, 없다고 별도로 묻지 않습니다. 라벨, 마일스톤, Issue type,
-상위 Issue, 차단 관계는 별도 요청이 있을 때만 설정합니다. Project 추가나 일정 기록만
-실패한 경우에는 Issue를 중복 생성하지 않고 부분 완료 상태를 보고합니다.
 
 ## `git-commit-pr`
 
@@ -128,8 +97,6 @@ Issue 번호가 있으면 브랜치명에 포함하고 PR 본문 마지막 줄�
 넣습니다. GitHub에서는 Issue의 **Linked pull requests**와 PR의 연결된 Issue가
 양방향으로 표시되며, 기본 브랜치 병합 시 Issue가 자동으로 종료됩니다.
 
-PR 본문은 한국어로 작성하되 아래 영문 섹션 라벨을 유지합니다.
-
 ```md
 ## Why (배경/문제)
 ### Teams 링크                       # 제공된 경우만
@@ -141,11 +108,6 @@ PR 본문은 한국어로 작성하되 아래 영문 섹션 라벨을 유지합�
 
 Closes #123
 ```
-
-`TODO`에는 실제 배포 시 남은 수동 작업만 체크박스로 넣고, `Test`에는 실제 실행한
-테스트 또는 수동 검증만 기록합니다. Teams 링크가 제공되면 `Why` 하위에 보존하고,
-없으면 해당 섹션을 제거합니다. 불확실한 내용을 채우기 위해 `없음`이나 `None`을 넣지
-않습니다.
 
 ```text
 $git-commit-pr GitHub Issue #123 기준으로 feat 브랜치 만들어줘
@@ -159,9 +121,8 @@ $git-commit-pr Bypass 모드로 PR 만들어줘
 | Normal | PR 전체 초안을 보여주고, 불확실한 내용만 확인한 뒤 생성 또는 수정 |
 | Bypass | 추가 내용 질문 없이 diff·커밋 이력에 확인되는 정보만 사용 |
 
-기능 브랜치에서는 요청에 포함된 커밋·push를 별도 재확인 없이 진행합니다. 다만
-`dev`, `main`, `master`에 대한 push는 반드시 push 직전의 명시 승인이 필요합니다.
-브랜치 생성, PR 생성, PR 수정도 실행 직전에 확인합니다.
+기능 브랜치에서는 요청에 포함된 커밋·push를 별도 재확인 없이 진행합니다. 
+다만 `dev`, `main`, `master`에 대한 push는 반드시 push 직전의 명시 승인이 필요합니다.
 
 ## `git-sync-branches`
 
@@ -176,13 +137,12 @@ $git-sync-branches dry-run으로 확인해줘
 
 - 없는 로컬 추적 브랜치는 생성합니다.
 - 체크아웃되지 않은 로컬 브랜치는 fast-forward만 합니다.
-- 원격에 브랜치가 없거나, 로컬이 ahead/diverged 상태이거나, 다른 worktree에서
-  사용 중인 브랜치는 건너뜁니다.
+- 원격에 브랜치가 없거나, 로컬이 ahead/diverged 상태이거나, 다른 worktree에서 사용 중인 브랜치는 건너뜁니다.
 - 자동 `merge`, `rebase`, `reset`, `stash`, 브랜치 전환은 하지 않습니다.
 
 ## `datadog-my-services`
 
-Mario와 GMS Java API의 Datadog 조회에 서비스와 환경 기본값을 적용합니다.
+Mario와 GMS API의 Datadog 조회에 서비스와 환경 기본값을 적용합니다.
 
 | 저장소 | 기본 Datadog service | 기본 환경 |
 | --- | --- | --- |

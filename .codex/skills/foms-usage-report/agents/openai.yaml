@@ -1,0 +1,4 @@
+interface:
+  display_name: "FOMS 사용 현황 보고서"
+  short_description: "Datadog RUM과 서버 로그로 임원 보고용 HTML 작성"
+  default_prompt: "$foms-usage-report 최근 FOMS 사용 현황을 임원 보고용 HTML로 만들어줘."

@@ -11,7 +11,8 @@
     "./skills/git-commit-pr",
     "./skills/github-issue-create",
     "./skills/git-sync-branches",
-    "./skills/datadog-my-services"
+    "./skills/datadog-my-services",
+    "./skills/foms-usage-report"
   ],
   "requires_local_executor": true,
   "interface": {

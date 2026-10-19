@@ -8,6 +8,7 @@ Codex용 개인 스킬 모음입니다.
   - [`git-commit-pr`](#git-commit-pr)
   - [`git-sync-branches`](#git-sync-branches)
   - [`datadog-my-services`](#datadog-my-services)
+  - [`foms-usage-report`](#foms-usage-report)
 - [저장소 구성](#저장소-구성)
 
 ## 빠른 시작
@@ -59,6 +60,7 @@ flowchart LR
 | `git-commit-pr` | “커밋해줘”, “PR 열어줘” | Issue 기반 브랜치, Conventional Commit, 연결된 PR |
 | `git-sync-branches` | “dev/main 동기화 상태 보여줘” | 로컬 `dev`·`main` 브랜치의 안전한 최신화 |
 | `datadog-my-services` | “내 서비스 Datadog 에러 확인해줘” | 서비스·환경·기간 기본값이 적용된 Datadog 조회 |
+| `foms-usage-report` | “FOMS 사용률 임원 보고서 만들어줘” | RUM·서버 로그 기반의 단일 HTML 보고서 |
 
 ---
 
@@ -187,6 +189,24 @@ Mario와 GMS API의 Datadog 조회에 서비스·환경 기본값을 적용합�
 $datadog-my-services mario 어제 오후 3시부터 4시까지 에러 로그 확인해줘
 $datadog-my-services 내 서비스들 상태 확인해줘
 ```
+
+## `foms-usage-report`
+
+Datadog RUM(`foms-fe`)과 Mario 배송 변경 성공 로그, 제공된 배송 물량으로
+임원 보고용 HTML을 작성합니다. 결론·핵심 수치 → 활용 추이 → 사용자별 업무 현황
+순으로 구성하고, 상세 집계는 부록으로 분리합니다.
+
+사용자별 기본 배송 지표는 **집품 설정 변경 대상 수**와 **포장순번 생성 대상 수**입니다.
+반복 변경을 포함한 작업량과 고유 배송 처리율을 구분하며, 조회 중심 사용자의
+이벤트 미수집을 미사용으로 판단하지 않습니다.
+
+```text
+$foms-usage-report 10/8부터 10/17까지 FOMS 사용 현황을 임원 보고용 HTML로 만들어줘
+$foms-usage-report 이 HTML의 보고일만 오늘로 바꾸고 사용자별 배송건 표를 수정해줘
+```
+
+HTML 템플릿에는 실사용자 이름이나 과거 집계 값이 포함되어 있지 않습니다.
+새 조회는 Datadog MCP 연결이 필요하며, 기존 자료만으로 보고서를 편집할 수도 있습니다.
 
 ## 저장소 구성
 
